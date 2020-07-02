@@ -69,8 +69,10 @@ class CustomViewHolder(v: View, var video: Item? = null) : RecyclerView.ViewHold
 
     init {
         v.setOnClickListener {
-            val intent = YouTubeStandalonePlayer.createVideoIntent(it.context as Activity?,
-                "AIzaSyDGQ-Jkha2uR-RFyjZz-PNYr4JWAwzkWHE", video?.id)
+            val intent = YouTubeStandalonePlayer.createVideoIntent(
+                it.context as Activity?,
+                "AIzaSyDGQ-Jkha2uR-RFyjZz-PNYr4JWAwzkWHE", video?.id
+            )
             it.context.startActivity(intent)
         }
     }
