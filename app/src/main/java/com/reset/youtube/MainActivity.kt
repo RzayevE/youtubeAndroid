@@ -1,12 +1,15 @@
 package com.reset.youtube
 
-import androidx.appcompat.app.AppCompatActivity
+import android.hardware.SensorManager.getOrientation
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.activity_main.*
 import okhttp3.*
 import java.io.IOException
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,6 +22,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         recyclerView_main.layoutManager = LinearLayoutManager(this)
+        val dividerItemDecoration = DividerItemDecoration(
+            recyclerView_main.context,
+            (recyclerView_main.layoutManager as LinearLayoutManager).orientation
+        )
+        recyclerView_main.addItemDecoration(dividerItemDecoration)
 
         listOfChannels = ArrayList<ChannelFeed>()
 

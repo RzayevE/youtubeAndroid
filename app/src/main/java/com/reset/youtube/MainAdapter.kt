@@ -1,5 +1,6 @@
 package com.reset.youtube
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,8 +28,8 @@ class MainAdapter(val homeFeed: HomeFeed, val listOfChannels: ArrayList<ChannelF
 
     override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
         val video = homeFeed.items.get(position)
+        holder.video = video
         if (listOfChannels.isEmpty()) {
-
 
         } else {
             val channel = listOfChannels[position].items.get(0)
@@ -63,6 +64,15 @@ class MainAdapter(val homeFeed: HomeFeed, val listOfChannels: ArrayList<ChannelF
     }
 }
 
-class CustomViewHolder(v: View) : RecyclerView.ViewHolder(v){
+class CustomViewHolder(v: View, var video: Item? = null) : RecyclerView.ViewHolder(v) {
 
+
+
+    init {
+        v.setOnClickListener {
+            val intent = Intent(it.context, VideoActivity::class.java)
+            intent.putExtra("videoPath", video?.id)
+            it.context.startActivity(intent)
+        }
+    }
 }
