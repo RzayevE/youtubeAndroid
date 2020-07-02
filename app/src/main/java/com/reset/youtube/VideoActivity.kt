@@ -9,15 +9,17 @@ import android.util.AttributeSet
 import android.view.View
 import android.webkit.WebChromeClient
 import android.widget.MediaController
+import android.widget.Toast
 import android.widget.VideoView
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.video.*
+import java.lang.Exception
 import java.net.URI
 
 class VideoActivity : AppCompatActivity() {
 
     var playbackPosition = 0
-    private lateinit var mediaController: MediaController
+    var mediaController: MediaController? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,47 +31,33 @@ class VideoActivity : AppCompatActivity() {
         actionBar.setDisplayHomeAsUpEnabled(true)
 
         val id = intent.getStringExtra("videoPath")
-        val path = "http://www.youtube.com/embed/" + id
+        val path = "https://www.youtube.com/watch?v=" + id
+//
+//        web_view.settings.javaScriptEnabled = true
+//        web_view.webChromeClient = WebChromeClient()
+//        web_view.loadUrl(path)
 
-        web_view.settings.javaScriptEnabled = true
-        web_view.webChromeClient = WebChromeClient()
-        web_view.loadUrl(path)
+        if (mediaController == null) {
+            mediaController = MediaController(this)
+        }
+        try {
+            video_view.setMediaController(mediaController)
+            video_view.setVideoPath(path)
+        } catch (e: Exception) {
+            Toast.makeText(this, e.toString(), Toast.LENGTH_LONG).show()
+        }
+        video_view.requestFocus()
+        video_view.setOnCompletionListener {
+            video_view.seekTo(playbackPosition)
+            if (playbackPosition == 0) {
+                video_view.start()
+            }
+        }
 
-//        mediaController = MediaController(this)
 
-//        video_view.setOnPreparedListener{
-//            mediaController.setAnchorView(fl)
-//            video_view.setMediaController(mediaController)
-//            video_view.seekTo(playbackPosition)
-//            video_view.start()
-//        }
 
     }
 
-//    override fun onStart() {
-//        super.onStart()
-//
-//        val id = intent.getStringExtra("videoPath")
-//        val path = "http://www.youtube.com/embed/" + id
-//        video_view.setVideoPath(path)
-//        video_view.start()
-//        progressBar.visibility = View.VISIBLE
-//
-//    }
-//
-//    override fun onPause() {
-//        super.onPause()
-//
-//        video_view.pause()
-//        playbackPosition = video_view.currentPosition
-//    }
-//
-//    override fun onStop() {
-//        video_view.stopPlayback()
-//
-//        super.onStop()
-//    }
-//
 
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()

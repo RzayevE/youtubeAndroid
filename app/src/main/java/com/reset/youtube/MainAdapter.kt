@@ -1,17 +1,16 @@
 package com.reset.youtube
 
-import android.content.Intent
+import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.youtube.player.YouTubeStandalonePlayer
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item.view.*
-import kotlin.coroutines.coroutineContext
+import okhttp3.Callback
 
 class MainAdapter(val homeFeed: HomeFeed, val listOfChannels: ArrayList<ChannelFeed>) : RecyclerView.Adapter<CustomViewHolder>(){
-
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomViewHolder {
@@ -70,8 +69,8 @@ class CustomViewHolder(v: View, var video: Item? = null) : RecyclerView.ViewHold
 
     init {
         v.setOnClickListener {
-            val intent = Intent(it.context, VideoActivity::class.java)
-            intent.putExtra("videoPath", video?.id)
+            val intent = YouTubeStandalonePlayer.createVideoIntent(it.context as Activity?,
+                "AIzaSyDGQ-Jkha2uR-RFyjZz-PNYr4JWAwzkWHE", video?.id)
             it.context.startActivity(intent)
         }
     }
